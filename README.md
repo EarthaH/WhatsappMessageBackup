@@ -25,7 +25,7 @@ curl http://localhost:8080/health/
 
 ### Save New Message `/message/`
 Use this endpoint to POST new messages to the service in JSON form. The messages will then be parsed from JSON and saved into a DB for later use.
-Returns HTTP 200 on success.
+Returns HTTP 201 on success.
 ```
-curl -X POST http://localhost:8080/message/ -H 'Content-Type: application/json' -d '[ { "line" : "Some text you want to save here." } ]'
+curl -X POST http://localhost:8080/message/ -H 'Content-Type: application/json' -d '[ { ... : ... } ]'
 ```
