@@ -1,0 +1,20 @@
+[
+  { 
+    "recipient_type": "individual",
+    "to" : "{{Recipient-WA-ID}}",
+    "type": "interactive",
+    "interactive": {
+      "type": "product",
+      "body": {
+        "text": "body text"
+      },
+      "footer": {
+        "text": "footer text"
+      },
+      "action": {
+        "catalog_id": "catalog-ID",
+        "product_retailer_id": "product-ID"
+      }
+    }
+  }
+]

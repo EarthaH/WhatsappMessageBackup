@@ -1,0 +1,45 @@
+[
+  {
+    "recipient_type": "individual",
+    "to": "whatsapp-id",
+    "type": "interactive",
+    "interactive":{
+      "type": "list",
+      "header": {
+        "type": "text",
+        "text": "your-header-content-here"
+      },
+      "body": {
+        "text": "your-text-message-content-here"
+      },
+      "footer": {
+        "text": "your-footer-content-here"
+      },
+      "action": {
+        "button": "cta-button-content-here",
+        "sections":[
+          {
+            "title":"your-section-title-content-here",
+            "rows": [
+              {
+                "id":"unique-row-identifier-here",
+                "title": "row-title-content-here",
+                "description": "row-description-content-here"
+              }
+            ]
+          },
+          {
+            "title":"your-section-title-content-here",
+            "rows": [
+              {
+                "id":"unique-row-identifier-here",
+                "title": "row-title-content-here",
+                "description": "row-description-content-here"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+]

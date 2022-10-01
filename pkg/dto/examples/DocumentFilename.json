@@ -1,0 +1,12 @@
+[
+  {
+    "recipient_type": "individual",
+    "to": "whatsapp-id",
+    "type": "document",
+    "document": {
+        "id": "your-media-id",
+        "caption": "your-document-caption-to-be-sent",
+        "filename": "your-document-filename"
+    }
+  }
+]

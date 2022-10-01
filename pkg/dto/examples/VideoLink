@@ -1,0 +1,15 @@
+[
+  {
+    "recipient_type": "individual",
+    "to": "whatsapp-id",
+    "type": "video",
+    
+    "video": {
+        "link": "http(s)://the-url",
+        "provider": {
+            "name" : "provider-name"
+        },
+        "caption": "your-video-caption"
+      }
+  }
+]
