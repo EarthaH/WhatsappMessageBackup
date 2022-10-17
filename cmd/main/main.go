@@ -8,6 +8,7 @@ import (
 
 func main() {
 	logger.Init()
-	dao.Init()
+	dao.BunConnect()
 	api.HandleRequest()
+	dao.BunDisconnect()
 }
