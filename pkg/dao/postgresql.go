@@ -8,6 +8,7 @@ import (
 	_ "github.com/lib/pq"
 	"hogsback.com/whatsapp/pkg/config"
 	"hogsback.com/whatsapp/pkg/dto"
+	"hogsback.com/whatsapp/pkg/logger"
 
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
@@ -25,6 +26,32 @@ type Message struct {
 var db *bun.DB
 
 func BunConnect() {
+	createDBConnection()
+	pingDB()
+	logger.Info("Successfully Connected to PostgreSQL DB.")
+
+	addQueryHookToDB()
+
+	createTable(context.TODO())
+	logger.Info("DB Tables ready for use.")
+}
+
+func AddToTable(params dto.Parameter, ctx context.Context) sql.Result {
+	msg := &Message{
+		Parameters: params,
+	}
+	res, err := db.NewInsert().Model(msg).Exec(ctx)
+
+	logger.HandleError(err, false)
+	return res
+}
+
+func BunDisconnect() {
+	db.Close()
+	logger.Info("PostgreSQL DB Connection Closed.")
+}
+
+func createDBConnection() {
 	conf := config.GetConfig()
 	dsn := fmt.Sprintf("postgres://%s:@%s:%s/%s", conf.User, conf.Host, conf.Port, conf.Dbname)
 
@@ -32,41 +59,21 @@ func BunConnect() {
 	psqldb := sql.OpenDB(psqlconn)
 
 	db = bun.NewDB(psqldb, pgdialect.New())
+}
 
+func pingDB() {
 	err := db.Ping()
-	checkError(err)
+	logger.HandleError(err, true)
+}
 
+func addQueryHookToDB() {
 	db.AddQueryHook(bundebug.NewQueryHook(
 		bundebug.WithVerbose(true),
 		bundebug.FromEnv("BUNDEBUG"),
 	))
-
-	createTable(context.TODO())
 }
 
 func createTable(ctx context.Context) {
-	// _, _ = db.NewDropTable().Model((*Message)(nil)).Exec(ctx)
-	res, err := db.NewCreateTable().Model((*Message)(nil)).IfNotExists().Exec(ctx)
-	checkError(err)
-	println(res)
-}
-
-func AddToTable(params dto.Parameter, ctx context.Context) {
-	msg := &Message{
-		Parameters: params,
-	}
-	res, err := db.NewInsert().Model(msg).Exec(ctx)
-
-	checkError(err)
-	println(res)
-}
-
-func BunDisconnect() {
-	db.Close()
-}
-
-func checkError(err error) {
-	if err != nil {
-		panic(err)
-	}
+	_, err := db.NewCreateTable().Model((*Message)(nil)).IfNotExists().Exec(ctx)
+	logger.HandleError(err, true)
 }

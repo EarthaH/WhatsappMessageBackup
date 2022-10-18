@@ -30,13 +30,11 @@ func backupMessage(c *gin.Context) {
 	var params dto.Parameter
 	err := c.BindJSON(&params)
 
-	if err != nil {
-		logger.Error(err)
+	if logger.HandleError(err, false) {
 		c.JSON(http.StatusInternalServerError, "")
-		return
+	} else {
+		res := dao.AddToTable(params, context.TODO())
+
+		c.JSON(http.StatusCreated, res)
 	}
-
-	dao.AddToTable(params, context.TODO())
-
-	c.JSON(http.StatusCreated, "")
 }
