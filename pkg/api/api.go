@@ -1,16 +1,18 @@
 package api
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"hogsback.com/whatsapp/pkg/dao"
 	"hogsback.com/whatsapp/pkg/dto"
 	"hogsback.com/whatsapp/pkg/logger"
 )
 
 func HandleRequest() {
 	r := gin.Default()
-	r.GET("/health/", checkHealth)
+	r.GET("/health", checkHealth)
 	r.POST("/message/", backupMessage)
 
 	r.Run("localhost:8080")
@@ -25,15 +27,14 @@ func checkHealth(c *gin.Context) {
 func backupMessage(c *gin.Context) {
 	logger.Info("Endpoint Hit: backupMessage")
 
-	var message dto.Parameter
-	err := c.BindJSON(&message)
+	var params dto.Parameter
+	err := c.BindJSON(&params)
 
-	if err != nil {
-		logger.Error(err)
+	if logger.HandleError(err, false) {
 		c.JSON(http.StatusInternalServerError, "")
-		return
-	}
-	println(message)
+	} else {
+		res := dao.AddToTable(params, context.TODO())
 
-	c.JSON(http.StatusCreated, "")
+		c.JSON(http.StatusCreated, res)
+	}
 }

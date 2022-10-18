@@ -16,3 +16,6 @@
 
 # Files created for logging messages
 *.log
+
+# Config files
+*config.json
