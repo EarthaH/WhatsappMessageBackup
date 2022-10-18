@@ -1,0 +1,10 @@
+[
+  {
+    "recipient_type": "individual",
+    "to": "whatsapp-id",
+    "type": "text",
+    "text": {
+        "body": "your-message-content"
+    }
+  }
+]

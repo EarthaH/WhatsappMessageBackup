@@ -1,0 +1,14 @@
+[
+  {
+    "recipient_type": "individual",
+    "to": "whatsapp-id",
+    "type": "document",
+    "document": {
+        "link": "http(s)://the-url",
+        "provider": {
+            "name" : "provider-name"
+        },
+        "caption": "your-document-caption"
+      }
+  }
+]
